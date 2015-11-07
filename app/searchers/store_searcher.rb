@@ -9,9 +9,7 @@ class StoreSearcher
   end
 
   def available_for_delivery
-    stores = city.present? ? Store.by_city(city) : Store.all
-    stores = coordinates.blank? ? stores.none : stores.available_for_delivery(coordinates)
-    stores
+    coordinates.blank? ? Store.none : Store.available_for_delivery(coordinates)
   end
 
   # We order by distance here to expose the distance method,

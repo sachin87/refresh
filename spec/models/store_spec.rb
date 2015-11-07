@@ -29,7 +29,7 @@ RSpec.describe Store, type: :model do
 
   it "delegates the logo to the chain's logo" do
     expect(store.logo).to eq store.chain.logo
-  end 
+  end
 
   describe ".by_city" do
     let!(:city) { create(:city, name: 'Atlanta') }
@@ -79,7 +79,7 @@ RSpec.describe Store, type: :model do
     end
   end
 
-  describe ".available_for_delivery" do
+  describe '.available_for_delivery' do
     before do
       Geocoder::Lookup::Test.add_stub("far far away, Atlanta, GA", [
         {
@@ -92,16 +92,40 @@ RSpec.describe Store, type: :model do
           'country_code' => 'US'
         }
       ])
+
+      Geocoder::Lookup::Test.add_stub('Nearby City Street, Nearby City, GA', [
+        {
+          'latitude'     => 40.711074,
+          'longitude'    => -73.948870,
+          'address'      => 'Nearby City Street, Atlanta, GA',
+          'state'        => 'Georgia',
+          'state_code'   => 'GA',
+          'country'      => 'United States',
+          'country_code' => 'US'
+        }
+      ])
+    end
+
+    let!(:nearby_city) { create(:city, name: 'Nearby City', state: 'GA') }
+
+    let!(:nearby_city_address) do
+      create :address, address: 'Nearby City Street', city: nearby_city
     end
 
     let!(:store_available_for_delivery) { create(:store) }
-    let!(:store_not_available_for_delivery) do
+
+    let!(:store_available_for_delivery_in_nearby_city) do
+      create :store, address: nearby_city_address
+    end
+
+      let!(:store_not_available_for_delivery) do
       create(:store, address: create(:address, address: 'far far away'))
     end
 
     it do
       expect(Store.available_for_delivery('4th Av., Atlanta, GA'))
-      .to eq [store_available_for_delivery]
+      .to eq [store_available_for_delivery, store_available_for_delivery_in_nearby_city]
     end
+
   end
 end

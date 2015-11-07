@@ -92,7 +92,7 @@ RSpec.describe ClothesController, type: :controller do
         }
       end
 
-      it "orders clothes by views" do
+      it "orders clothes by views", :wip do
         Impression.create!(impressionable: second_cloth)
         do_action
         expect(assigns[:clothes]).to eq [second_cloth, first_cloth]
