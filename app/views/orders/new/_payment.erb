@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="col-lg-4">
+    <h5>Select Payment</h5>
+    <br/>
+  </div>
+
+  <%- if current_user.customer_id.present? %>
+    <div class="col-lg-8">
+      <div class="form-group">
+        <%= f.select :source_id, options_for_payment_source, class: 'form-control', include_blank: 'Select payment method' %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="col-lg-12" style="<%= 'display: none' if current_user.has_credit_card? %>" id="payment-info">
+    <hr />
+    <div class="payment-errors"></div>
+    <div class="col-lg-12">
+      <div class="col-lg-12">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="1234 5678 9012 3456" data-stripe="number">
+        </div>
+      </div>
+      <div class="col-xs-6 col-lg-3">
+        <div class="form-group">
+          <select class="form-control" data-stripe="exp-month">
+            <option value="" selected disabled>Month</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-xs-6 col-lg-3">
+        <div class="form-group">
+          <select class="form-control" data-stripe="exp-year">
+            <option value="" selected disabled>Year</option>
+            <option value="2016">2016</option>
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-xs-6 col-lg-3">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="CCV" data-stripe="cvc">
+        </div>
+      </div>
+      <!-- Stripe doesn't require zip code -->
+      <!-- div class="col-xs-6 col-lg-3">
+        <div class="form-group">
+          <input type="zip-code" class="form-control" id="card" placeholder="Zip Code">
+        </div>
+      </div-->
+      <!-- div class="col-lg-12">
+        <button type="submit" class="btn btn-default pull-right">Save</button>
+      </div -->
+    </div>
+  </div>
+</div>
+<hr />
+<a id="add-payment" class="btn btn-default black">Add New Card</a>
+
+<div class="text-center">
+  <a id="cancel-add-payment" style="display: none;" class="btn btn-default btn-sm black">Cancel New Card</a>
+</div>

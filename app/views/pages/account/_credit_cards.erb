@@ -1,0 +1,87 @@
+<div class="credit-cards-wrapper panel panel-default">
+  <div class="panel-heading">
+    <h4>Payment Info</h4>
+  </div>
+
+  <div id="payment-info" class="panel-body">
+    <% if defined?(message) && @credit_card.try(:errors).blank? %>
+      <div class="alert alert-dismissible alert-success" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <%= message %>
+      </div>
+    <% end %>
+
+    <h5>Current cards</h5>
+
+    <table class="table">
+      <% current_user.credit_cards.each do |card| %>
+        <tr>
+          <td><%= "#{card.brand} | #{card.last4}" %></td>
+          <td>
+            <%= link_to 'remove', remove_credit_card_user_path(credit_card_id: card.id),
+              data: {disable_with: 'removing...', confirm: 'Are you sure?'} %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+
+    <br>
+
+    <%= form_for :credit_card, url: add_credit_card_user_path,
+      remote: true, format: :json, html: {style: 'display: none'} do |f| %>
+
+      <% if defined?(message) && @credit_card.try(:errors).present? %>
+        <div class="alert alert-dismissible alert-danger" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <%= message %>
+        </div>
+      <% end %>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <%= f.label :number %>
+            <%= text_field :credit_card, :number, class: 'form-control', placeholder: '1234 5678 9012 3456' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <%= f.label :exp_year %>
+            <%= select :credit_card, :exp_year, Time.current.year..(Time.current.year + 15), {}, class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="form-group">
+            <%= f.label :exp_month %>
+            <%= select :credit_card, :exp_month, 1..12, {}, class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="form-group">
+            <%= f.label :cvc %>
+            <%= text_field :credit_card, :cvc, class: 'form-control', placeholder: 'CCV' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <button id="cancel-add-payment" type="reset" value="Reset" class="btn btn-default">Cancel</button>
+          <%= f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-default' %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="clearfix"></div>
+    <hr style="margin-bottom:0px" />
+  </div>
+
+  <div class="panel-body">
+    <a id="add-payment" class="btn btn-default black">Add New Card</a>
+  </div>
+</div>

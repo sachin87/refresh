@@ -6,6 +6,8 @@ class Order < ActiveRecord::Base
   has_many :cart_items, as: :owner, dependent: :destroy
   validates :user, :delivery_address, :delivery_time, presence: true
 
+  attr_accessor :source_id
+
   def charged?
     charge_id.present?
   end

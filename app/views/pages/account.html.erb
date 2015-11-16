@@ -17,70 +17,12 @@
         </div>
       </div>
     </div>
+
     <div class="col-sm-8">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4>Payment Info</h4>
-        </div>
-        <div id="payment-info" class="panel-body hidden">
-          <form>
-            <div class="col-sm-11">
-              <div class="col-sm-12">
-                <div class="form-group">
-                  <input type="card" class="form-control" id="card" placeholder="1234 5678 9012 3456">
-                </div>
-              </div>
-              <div class="col-xs-6 col-sm-3">
-                <div class="form-group">
-                  <select class="form-control">
-                    <option value="" selected disabled>Month</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-xs-6 col-sm-3">
-                <div class="form-group">
-                  <select class="form-control">
-                    <option value="" selected disabled>Year</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-xs-6 col-sm-3">
-                <div class="form-group">
-                  <input type="ccv" class="form-control" id="card" placeholder="CCV">
-                </div>
-              </div>
-              <div class="col-xs-6 col-sm-3">
-                <div class="form-group">
-                  <input type="zip-code" class="form-control" id="card" placeholder="Zip Code">
-                </div>
-              </div>
-              <div class="col-xs-8 col-md-9">
-                <a id="" class="pull-right" href="">Cancel</a>
-              </div>
-              <div class="col-xs-4 col-md-3">
-                <button type="submit" class="btn btn-default pull-right">Submit</button>
-              </div>
-            </div>
-          </form>
-          <div class="clearfix"></div>
-          <hr style="margin-bottom:0px" />
-        </div>
-        <div class="panel-body">
-          <a id="add-payment" class="btn btn-default black">Add New Card</a>
-        </div>
-      </div>
+      <%= render 'pages/account/credit_cards' %>
     </div>
   </div>
+
   <div class="row">
     <div class="col-sm-4">
       <div class="panel panel-default">

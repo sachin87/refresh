@@ -2,10 +2,12 @@
   Stripe.setPublishableKey('<%= Rails.application.secrets.stripe_publishable_key %>');
 
   jQuery(function setupCreditCardForm ($) {
-    var $form = $('#fill-credit-card-form')
+    var $form = $('#order-form')
     $form.submit(onSubmitForm);
 
     function onSubmitForm () {
+      if (!$('#payment-info').data('enabled')) { return; }
+
       $form.find('button').prop('disabled', true);
       Stripe.card.createToken($form, stripeResponseHandler);
       return false;

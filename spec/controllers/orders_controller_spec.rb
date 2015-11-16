@@ -229,17 +229,63 @@ RSpec.describe OrdersController, type: :controller do
         end
       end
 
-      context "user already has a credit card" do
-        before do
-          user.update!(customer_id: 'some customer id')
-          post :create, order: {
-            delivery_time: delivery_time,
-            delivery_address: delivery_address
-          }
+      context "user already has a credit card (existing Stripe user)" do
+        context 'when user pay with existing credit card' do
+          before do
+            allow(Stripe::Charge).to receive(:create).with(
+              amount:   total_cost.cents,
+              currency: "usd",
+              customer: customer_double.id,
+              source: 'some source id'
+            ).and_return(charge_double)
+
+            user.update!(customer_id: 'some customer id')
+
+            post :create, order: {
+              delivery_time: delivery_time,
+              delivery_address: delivery_address,
+              source_id: 'some source id'
+            }
+          end
+
+          it { expect(Stripe::Customer).not_to have_received(:create) }
+
+          it do
+            expect(Stripe::Charge).to have_received(:create).with(
+              amount:   total_cost.cents,
+              currency: 'usd',
+              customer: customer_double.id,
+              source: 'some source id')
+          end
         end
 
-        it { expect(Stripe::Customer).not_to have_received(:create) }
-        it { expect(Stripe::Charge).to have_received(:create) }
+        context 'when user pay with new credit card' do
+          let(:sources) { double('Stripe::ListObject') }
+
+          before do
+            allow(Stripe::Customer).to(receive(:retrieve)
+              .with(customer_double.id)
+              .and_return(customer_double))
+
+            allow(customer_double).to receive(:sources) { sources }
+            allow(sources).to receive(:create)
+
+            user.update!(customer_id: 'some customer id')
+            do_action
+          end
+
+          it { expect(Stripe::Customer).not_to have_received(:create) }
+          it { expect(Stripe::Customer).to have_received(:retrieve) }
+          it { expect(customer_double).to have_received('sources') }
+          it { expect(sources).to have_received(:create).with(source: token) }
+
+          it do
+            expect(Stripe::Charge).to have_received(:create).with(
+              amount:   total_cost.cents,
+              currency: 'usd',
+              customer: customer_double.id)
+          end
+        end
       end
     end
 

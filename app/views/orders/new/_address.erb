@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col-lg-4">
+    <h5>Delivery Address</h5>
+    <br/>
+  </div>
+  <div class="col-lg-8">
+    <div class="form-group">
+      <%= f.select :delivery_address, current_user.addresses.map(&:full_address), required: true, selected: current_address.full_address, prompt: 'Select an address' %>
+    </div>
+  </div>
+  <!-- div id="address-info" class="hidden">
+    <div class="col-lg-12">
+      <hr />
+      <div class="col-xs-6">
+        <div class="form-group">
+          <input type="first-name" class="form-control" placeholder="First Name">
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <input type="last-name" class="form-control" placeholder="Last Name">
+        </div>
+      </div>
+      <div class="col-lg-9">
+        <div class="form-group">
+          <input type="street-address" class="form-control" placeholder="Street Address">
+        </div>
+      </div>
+      <div class="col-xs-4 col-lg-3">
+        <div class="form-group">
+          <input type="apt" class="form-control" placeholder="Apt/Suite">
+        </div>
+      </div>
+      <div class="col-xs-8 col-lg-6">
+        <div class="form-group">
+          <input type="city" class="form-control" placeholder="City">
+        </div>
+      </div>
+      <div class="col-xs-6 col-lg-3">
+        <div class="form-group">
+          <input type="state" class="form-control" placeholder="State">
+        </div>
+      </div>
+      <div class="col-xs-6 col-lg-3">
+        <div class="form-group">
+          <input type="zip" class="form-control" placeholder="Zip">
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="form-group">
+          <input type="notes" class="form-control" id="card" placeholder="Notes (Gate Code / Instructions)">
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <button type="submit" class="btn btn-default pull-right">Submit</button>
+      </div>
+    </div>
+  </div -->
+</div>
+<hr />
+<a id="add-address" class="btn btn-default black">Add New Address</a>

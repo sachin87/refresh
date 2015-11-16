@@ -4,7 +4,14 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { omniauth_callbacks: "users/omniauth_callbacks", passwords: "devise/passwords", registrations: "devise/registrations" }
 
   resources :orders, only: [:index, :new, :create], path_names: { new: 'checkout' }
-  resource :user, only: [:edit, :update]
+
+  resource :user, only: [:edit, :update] do
+    member do
+      post :add_credit_card, defaults: {format: 'json'}
+      get :remove_credit_card
+    end
+  end
+
   get 'cart' => 'cart#index'
   patch 'cart/add'
   delete 'cart/remove'
@@ -14,7 +21,7 @@ Rails.application.routes.draw do
   get 'notifications' => 'pages#notifications'
   get 'home' => 'pages#home'
   get 'account' => 'pages#account'
-  
+
   get 'help' => 'pages#help'
   get 'about' => 'pages#about'
   get 'partners' => 'pages#partners'

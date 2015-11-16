@@ -11,4 +11,12 @@ module OrderHelper
 
     content_tag :span, order.status.humanize, class: "label label-#{klass}"
   end
+
+  def options_for_payment_source
+    Stripe::Customer
+      .retrieve(current_user.customer_id)
+      .sources
+      .all(object: 'card')
+      .map{|card| ["#{card.brand} | #{card.last4}", card.id]}
+  end
 end
