@@ -1,4 +1,4 @@
-$(document).on('ready page:load', function(){
+$(function(){
   if (!$('body').hasClass('account')) { return; }
 
   // Credit cards
