@@ -7,7 +7,8 @@
   <%- if current_user.customer_id.present? %>
     <div class="col-lg-8">
       <div class="form-group">
-        <%= f.select :source_id, options_for_payment_source, class: 'form-control', include_blank: 'Select payment method' %>
+        <%= f.select :source_id, options_for_payment_source(current_user.credit_cards),
+          class: 'form-control', include_blank: 'Select payment method' %>
       </div>
     </div>
   <% end %>
