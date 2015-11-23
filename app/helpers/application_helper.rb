@@ -1,12 +1,10 @@
 module ApplicationHelper
   def body_css_classes
-    result = []
-
-    result << controller_name.dasherize
-    result << action_name.dasherize
-    result << @additional_body_css_classes
-
-    result.reject(&:blank?).join(' ')
+    [
+      controller_name.dasherize,
+      action_name.dasherize,
+      @additional_body_css_classes
+    ].reject(&:blank?).join(' ')
   end
 
   def modal_id(record)
