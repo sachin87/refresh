@@ -1,0 +1,18 @@
+var cartMenu = $('.cart-icon-menu');
+<% cart_is_empty = cart_items.map(&:quantity).sum <= 0  %>
+<% perticular_item_removed = cart.item_for(@product).try(:quantity).to_i == 0 %>
+<% if cart_is_empty || perticular_item_removed %>
+  $('.cart-icon .badge, .cart-items-quantity').text('<%= cart_items.map(&:quantity).sum %>');	
+  <% if cart_is_empty %>
+    cartMenu.addClass("hide");
+  <% end %>
+  $('#product_count_<%= @product.id %>').text(0)
+  $('#product_count_<%= @product.id %>').addClass("hide");
+  $('#remove_one_<%= @product.id %>').addClass("hide");
+<% else %>
+  $('.cart-icon .badge, .cart-items-quantity').text('<%= cart_items.map(&:quantity).sum %>');	
+  cartMenu.removeClass("hide");
+  $('#product_count_<%= @product.id %>').text(<%= cart.item_for(@product).quantity %>)
+  $('#product_count_<%= @product.id %>').removeClass("hide");
+  $('#remove_one_<%= @product.id %>').removeClass("hide");
+<% end %>

@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   patch 'cart/add'
   delete 'cart/remove'
   patch 'cart/update'
+  patch 'cart/remove_one'
 
   root 'pages#landing'
   get 'notifications' => 'pages#notifications'
